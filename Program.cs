@@ -30,7 +30,6 @@
 internal class Program
 {
     private static Random rng = new(DateTime.Now.Millisecond);
-    private int playerCard, cpuCard, playerScore, cpuScore;
 
     internal static void Main(string[] args)
     {
@@ -40,10 +39,6 @@ internal class Program
             // Clear the console
             Console.Clear();
 
-            DidPlayerWin();
-            
-            Console.ReadKey(true);
-
             // Create and display a menu. Store the selected option in a variable
             int menuChoice = DisplayMenu("Välkommen till 21:an!",
                 "Spela en runda", "Visa senaste vinnaren", "Visa spelregler", "Avsluta");
@@ -52,7 +47,7 @@ internal class Program
             switch (menuChoice)
             {
                 case 1: // Spela en runda
-
+                    PlayGame();
                     break;
                 case 2: // Visa senaste vinnaren
 
@@ -72,6 +67,64 @@ internal class Program
 
             // Wait for the user to acknowledge, before the next iteration of the loop
             Console.ReadKey(true);
+        }
+    }
+
+    static void PlayGame()
+    {
+        Console.Clear();
+
+        int playerCard, cpuCard, playerScore, cpuScore;
+
+        // Get inital cards
+        playerScore = GetCard(2);
+        cpuScore = GetCard(2);
+
+        // Show the initial scores
+        Console.WriteLine("Initiala värderna är:");
+        Console.WriteLine($"Ditt värde: {playerScore}");
+        Console.WriteLine($"Datorns värde: {cpuScore}");
+
+        while (true)
+        {
+            // Ask the player for another card
+            test(ref playerScore);
+
+            if (DidPlayerWin(playerScore, cpuScore))
+            {
+                continue;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        Console.WriteLine("Game over.\nTryck på valfri knapp för att gå tillbaka till huvudmenyn...");
+
+        Console.ReadKey(true);
+    }
+
+    static void test(ref int playerScore)
+    {
+        string choice = "";
+        
+        while (choice != "n" && playerScore <= 21)
+        {
+            Console.WriteLine("Vill du ha ett till kort? (j/n)");
+
+            switch (Console.ReadKey(true).Key)
+            {
+                case ConsoleKey.J:
+                    int newScore = 0;
+                    newScore = GetCard(1);
+                    playerScore += newScore;
+                    Console.WriteLine("Your new card is:" + (newScore));
+                    Console.WriteLine("Your total score is" + (playerScore));
+                    return;
+                case ConsoleKey.N:
+                    return;
+            }
         }
     }
 
@@ -111,61 +164,46 @@ internal class Program
             if (keyPress >= 0 && keyPress <= 9) return 9 - keyPress;
         }
     }
-
-    int GetPlayerCard()
+    private static int GetCard(int count)
     {
+        int sum = 0;
+        for (int i = 0; i < count; i++)
+        {
+            int initialCard = rng.Next(1, 15);
+            if (initialCard == 14)
+            {
+                initialCard = 11;
+                sum += initialCard;
+            }
+            if (initialCard >= 10 || initialCard == 13)
+            {
+                initialCard = 10;
+            }
+            sum += initialCard;
+        }
 
-        int card = rng.Next(1, 15);
-        if (card == 14)
-        {
-            card = 11;
-            return card;
-        }
-        if (card >= 10 || card == 13)
-        {
-            card = 10;
-        }
-        return card;
-    }
-    int GetCpuCard()
-    {
-
-        int card = rng.Next(1, 15);
-        if (card == 14)
-        {
-            card = 11;
-            return card;
-        }
-        if (card >= 10 || card == 13)
-        {
-            card = 10;
-        }
-        return card;
+        return sum;
     }
 
-    static bool DidPlayerWin()
+    static bool DidPlayerWin(int playerScore, int cpuScore)
     {
+        Console.WriteLine($"Din poäng: {playerScore}");
+        Console.WriteLine($"Datorns poäng: {cpuScore}");
 
-        int spelarensPoäng = 18;
-        int datornsPoäng = 22;
-
-        Console.WriteLine($"Din poäng: {spelarensPoäng}");
-        Console.WriteLine($"Datorns poäng: {datornsPoäng}");
-
-        if (spelarensPoäng > 21)
+        if (playerScore > 21)
         {
             // The computer won
             return false;
         }
-        else if (datornsPoäng > 21)
+        else if (cpuScore > 21)
         {
             // The player won
             Console.WriteLine("Du har tyvär vunnit!");
             Console.WriteLine("ditt namn här");
             string senasteVinnaren = Console.ReadLine();
-            return true; 
+            return true;
         }
-        else if (datornsPoäng <= spelarensPoäng)
+        else if (cpuScore <= playerScore)
         {
             // The player won
             return true;
