@@ -27,107 +27,55 @@
 // case 4: Gör ingenting (programmet avslutas)
 // default: Skriv att alternativet var ogiltigt
 
-﻿namespace BlackJack
+internal class Program
 {
-    internal class Program
+    internal static void Main(string[] args)
     {
-        static void PrintMainMenu()
+        int menuChoice = DisplayMenu("Välkommen till 21:an!", "Spela en runda", "Visa senaste vinnaren", "Bla bla", "Avsluta");
+
+        switch (menuChoice)
         {
-            Console.WriteLine("Press 1-4 to pick what to do:");
-            Console.WriteLine("1-Play BlackJack");
-            Console.WriteLine("2-Show recent winner");
-            Console.WriteLine("3-Gamerules");
-            Console.WriteLine("4-Exit");
-        }//Prints main menu.
+            case 1: // Spela en runda
 
+                break;
+            case 2: // Visa senaste vinnaren
 
-        static (string, int, int) Ace(int number)
-        {
-            return ("ace", 1, 11);
-        }//Called if an ace s drawn. Returns "ace" and the min and max value of ace (1 & 11)
-        static (string, int) GetCard(int number)
-        {
-            return number switch
-            {                   
-                2 => ("two", 2),
-                3 => ("three", 3),
-                4 => ("four", 4),
-                5 => ("five", 5),
-                6 => ("six", 6),
-                7 => ("seven", 7),
-                8 => ("eight", 8),
-                9 => ("nine", 9),
-                10 => ("ten", 10),
-                11 => ("knight", 10),
-                12 => ("queen", 10),
-                13 => ("three", 10),
-            };
-        }
-        static (string, int, int) NewRound()
-        {
-            //User and computerscore
-            int userScore = 0;
-            int cpusScore = 0;
+                break;
+            case 3: // Bla bla
 
-            int blackJack = 21;
-            
-
-            //We will use this variable to generate cards. 
-            Random random = new Random();
-            
-
-            if (userScore == 1)
-            {
-
-            }
+                break;
+            case 4: // Avsluta2
+                Environment.Exit(0);
+                break;
+            default:
+                Console.WriteLine("<Invalid choice>");
+                break;
         }
 
-        static void ExitProgram()
+        Console.ReadKey(true);
+    }
+
+
+    private static int DisplayMenu(string message, params string[] options)
+    {
+        Console.Clear();
+        Console.WriteLine(message + "\n");
+
+        for (int i = 1; i <= options.Length; i++)
         {
-            Console.WriteLine("Thanks for playing, program is shutting down..");           
-            Console.ReadKey(true);
-            Environment.Exit(0);
-        }//Prints a message and shuts down the program
-        
-        static void Main(string[] args)
-        {
-            //A list were we will store results. 
-            List<string> resultHistory = new List<string>();
-
-            //User and computerscore
-            int userScore = 0;
-            int cpusScore = 0;
-
-            
-
-
-            
-            //Main menu, the whole program will stay in this while loop until the user wants to exit
-            while (true)
-            {
-                //Print the main menu
-                PrintMainMenu();
-                
-                //Variable to keep track of the users choice
-                var keyPressed = Console.ReadKey(true);
-                //Depending on wich key is pressed, different methods are called
-                switch (keyPressed.Key)
-                {
-                        //If the user press 1, a new round will start
-                    case ConsoleKey.D1:
-                        break;
-                        //If user press 2, the result list will be displayed
-                    case ConsoleKey.D2:
-                        break;
-                    //If user press 3, the rules of the game will be displayed
-                    case ConsoleKey.D3:
-                        break;
-                    //If user press 4, ExitProgram is called and the program will shut down.
-                    case ConsoleKey.D4: ExitProgram();
-                        break;
-                }
-                Console.Clear();
-            }
+            Console.WriteLine($"{i}: {options[i - 1]}");
         }
+
+        while (true)
+        {
+            ConsoleKeyInfo key = Console.ReadKey(true);
+
+            int keyPress = ConsoleKey.D9 - key.Key;
+
+            if (keyPress >= 0 && keyPress <= 9) return 9 - keyPress;
+        }
+
+        Console.ReadKey(true);
+        return -1;
     }
 }
