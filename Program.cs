@@ -30,6 +30,7 @@
 internal class Program
 {
     private static Random rng = new(DateTime.Now.Millisecond);
+    private int playerCard, cpuCard, playerScore, cpuScore;
 
     internal static void Main(string[] args)
     {
@@ -39,8 +40,12 @@ internal class Program
             // Clear the console
             Console.Clear();
 
+            DidPlayerWin();
+            
+            Console.ReadKey(true);
+
             // Create and display a menu. Store the selected option in a variable
-            int menuChoice = DisplayMenu("Välkommen till 21:an!", 
+            int menuChoice = DisplayMenu("Välkommen till 21:an!",
                 "Spela en runda", "Visa senaste vinnaren", "Visa spelregler", "Avsluta");
 
             // Choose what to do next
@@ -137,4 +142,40 @@ internal class Program
         }
         return card;
     }
+
+    static bool DidPlayerWin()
+    {
+
+        int spelarensPoäng = 18;
+        int datornsPoäng = 22;
+
+        Console.WriteLine($"Din poäng: {spelarensPoäng}");
+        Console.WriteLine($"Datorns poäng: {datornsPoäng}");
+
+        if (spelarensPoäng > 21)
+        {
+            // The computer won
+            return false;
+        }
+        else if (datornsPoäng > 21)
+        {
+            // The player won
+            Console.WriteLine("Du har tyvär vunnit!");
+            Console.WriteLine("ditt namn här");
+            string senasteVinnaren = Console.ReadLine();
+            return true; 
+        }
+        else if (datornsPoäng <= spelarensPoäng)
+        {
+            // The player won
+            return true;
+        }
+        else
+        {
+            // The computer won
+            Console.WriteLine("gå och häng dig, datorn vinner");
+            return false;
+        }
+    }
+
 }
