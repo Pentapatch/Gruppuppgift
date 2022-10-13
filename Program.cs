@@ -27,10 +27,10 @@
 // case 4: Gör ingenting (programmet avslutas)
 // default: Skriv att alternativet var ogiltigt
 
-using System.Security.Cryptography;
-
 internal class Program
 {
+    private static Random rng = new(DateTime.Now.Millisecond);
+
     internal static void Main(string[] args)
     {
         // Stay in a loop indefinitely
