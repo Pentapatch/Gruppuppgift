@@ -29,6 +29,8 @@
 
 internal class Program
 {
+    internal static Random rng = new();
+
     internal static void Main(string[] args)
     {
         int menuChoice = DisplayMenu("Välkommen till 21:an!", "Spela en runda", "Visa senaste vinnaren", "Bla bla", "Avsluta");
@@ -53,6 +55,7 @@ internal class Program
         }
 
         Console.ReadKey(true);
+
     }
 
 
@@ -77,6 +80,38 @@ internal class Program
 
         Console.ReadKey(true);
         return -1;
+    }
+
+    int initialCards()
+    {
+        int initialCard = rng.Next(1, 15);
+        if (initialCard == 14)
+        {
+            initialCard = 11;
+            return initialCard;
+        }
+        if (initialCard >= 10 || initialCard == 13)
+        {
+            initialCard = 10;
+        }
+        return initialCard;
+        
+    }
+
+    int initialCpuCard()
+    {
+        int card = rng.Next(1, 15);
+        if (card == 14)
+        {
+            card = 11;
+            return card;
+        }
+
+        if (card >= 10 || card == 13)
+        {
+            card = 10;
+        }
+        return card;
     }
 
 
