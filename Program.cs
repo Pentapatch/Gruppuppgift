@@ -29,7 +29,7 @@
 
 internal class Program
 {
-    private static Random rng = new(DateTime.Now.Millisecond);
+
 
     internal static void Main(string[] args)
     {
@@ -68,6 +68,7 @@ internal class Program
             // Wait for the user to acknowledge, before the next iteration of the loop
             Console.ReadKey(true);
         }
+
     }
 
     static void PrintInstructions()
@@ -137,4 +138,38 @@ internal class Program
         }
         return card;
     }
+
+    int initialCards()
+    {
+        int initialCard = rng.Next(1, 15);
+        if (initialCard == 14)
+        {
+            initialCard = 11;
+            return initialCard;
+        }
+        if (initialCard >= 10 || initialCard == 13)
+        {
+            initialCard = 10;
+        }
+        return initialCard;
+        
+    }
+
+    int initialCpuCard()
+    {
+        int card = rng.Next(1, 15);
+        if (card == 14)
+        {
+            card = 11;
+            return card;
+        }
+
+        if (card >= 10 || card == 13)
+        {
+            card = 10;
+        }
+        return card;
+    }
+
+
 }
