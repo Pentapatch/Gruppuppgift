@@ -27,10 +27,10 @@
 // case 4: Gör ingenting (programmet avslutas)
 // default: Skriv att alternativet var ogiltigt
 
+using System.Security.Cryptography;
+
 internal class Program
 {
-    internal static Random rng = new();
-
     internal static void Main(string[] args)
     {
         int menuChoice = DisplayMenu("Välkommen till 21:an!", "Spela en runda", "Visa senaste vinnaren", "Visa spelregler", "Avsluta");
@@ -78,5 +78,36 @@ internal class Program
 
             if (keyPress >= 0 && keyPress <= 9) return 9 - keyPress;
         }
+    }
+
+    int GetPlayerCard()
+    {
+
+        int card = rng.Next(1, 15);
+        if (card == 14)
+        {
+            card = 11;
+            return card;
+        }
+        if (card >= 10 || card == 13)
+        {
+            card = 10;
+        }
+        return card;
+    }
+    int GetCpuCard()
+    {
+
+        int card = rng.Next(1, 15);
+        if (card == 14)
+        {
+            card = 11;
+            return card;
+        }
+        if (card >= 10 || card == 13)
+        {
+            card = 10;
+        }
+        return card;
     }
 }
