@@ -29,9 +29,11 @@
 
 internal class Program
 {
+    internal static Random rng = new();
+
     internal static void Main(string[] args)
     {
-        int menuChoice = DisplayMenu("Välkommen till 21:an!", "Spela en runda", "Visa senaste vinnaren", "Bla bla", "Avsluta");
+        int menuChoice = DisplayMenu("Välkommen till 21:an!", "Spela en runda", "Visa senaste vinnaren", "Visa spelregler", "Avsluta");
 
         switch (menuChoice)
         {
@@ -55,17 +57,19 @@ internal class Program
         Console.ReadKey(true);
     }
 
-
     private static int DisplayMenu(string message, params string[] options)
     {
+        // Set up the console and print the message
         Console.Clear();
         Console.WriteLine(message + "\n");
 
+        // Print the menu options
         for (int i = 1; i <= options.Length; i++)
         {
             Console.WriteLine($"{i}: {options[i - 1]}");
         }
 
+        // Stay in a loop indefinitely until the user 
         while (true)
         {
             ConsoleKeyInfo key = Console.ReadKey(true);
@@ -74,8 +78,5 @@ internal class Program
 
             if (keyPress >= 0 && keyPress <= 9) return 9 - keyPress;
         }
-
-        Console.ReadKey(true);
-        return -1;
     }
 }
